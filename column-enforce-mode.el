@@ -1,17 +1,16 @@
-;;; column-enforce-mode.el --- Highlight text that extends beyond a certain column (80 column rule)
+;;; column-enforce-mode.el --- Highlight text that extends beyond a  column
 ;;
 ;; Filename: column-enforce-mode.el
 ;; Description:
 ;; Author: Jordon Biondo
 ;; Maintainer:
 ;; Created: Fri Oct 11 12:14:25 2013 (-0400)
-;; Version:
+;; Version: 1.0.1
 ;; Package-Requires: ()
-;; Last-Updated: Fri Oct 11 12:17:43 2013 (-0400)
+;; Last-Updated: Fri Oct 11 12:37:51 2013 (-0400)
 ;;           By: Jordon Biondo
-;;     Update #: 4
-;; URL:
-;; Doc URL:
+;;     Update #: 8
+;; URL: www.github.com/jordonbiondo/column-enforce-mode
 ;; Keywords:
 ;; Compatibility:
 ;;
@@ -21,9 +20,9 @@
 ;;
 ;;  Highlight text that extends beyond a certain column (80 column rule)
 ;;
-;;  By default, text after 80 columns will be highlighted in red (relys on font-lock-mode)
+;;  By default, text after 80 columns will be highlighted in red
 ;;
-;;  To customize behavior, modify `column-enforce-column' and `column-enforce-face'
+;;  To customize behavior, see `column-enforce-column' and `column-enforce-face'
 ;;
 ;;  To enable: M-x column-enforce-mode
 ;;
@@ -55,7 +54,8 @@
 ;;; Code:
 
 (defvar column-enforce-column 80
-  "Begin marking warnings one text after this many columns in `column-enforce-mode'.")
+  "Begin marking warnings one text after this
+ many columns in `column-enforce-mode'.")
 
 
 (defvar column-enforce-face `(:foreground "red" :underline t)
@@ -65,7 +65,8 @@
 (define-minor-mode column-enforce-mode
   "Minor mode for highlighting text that extends beyond a certain column.
 
-Variable `column-enforce-column' decides which column to start warning at. Default is 80
+Variable `column-enforce-column' decides which column to start warning at.
+ Default is 80
 Variable `column-enforce-face' decides how to display the warnings"
   :init-value nil
   :lighter (format "col:%d!" column-enforce-column)
