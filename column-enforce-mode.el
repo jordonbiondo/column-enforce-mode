@@ -73,8 +73,9 @@ Variable `column-enforce-face' decides how to display the warnings"
   :global nil
   (when font-lock-mode
     (let* ((column-str (number-to-string column-enforce-column))
-	   (enforce-regexp (concat "\\(^.\\{" column-str "," column-str "\\}\\)\\(.+$\\)"))
-	   (enforce-keywords `((,enforce-regexp (2 column-enforce-face)))))
+	   (enforce-regexp
+	    (format "\\(^.\\{%s,%s\\}\\)\\(.+$\\)" column-str column-str))
+	   (enforce-keywords `((,enforce-regexp 2 column-enforce-face prepend))))
       (if column-enforce-mode
 	  (font-lock-add-keywords nil enforce-keywords)
 	(font-lock-remove-keywords nil enforce-keywords))
