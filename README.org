@@ -5,13 +5,20 @@
 
 ** Usage
    Start it up interactively on the current buffer,
-   #+BEGIN_SRC 
+   #+BEGIN_SRC
    M-x: column-enforce-mode
+   M-x: 80-column-rule
    #+END_SRC
    or tie it to a major mode:
-   #+BEGIN_SRC lisp
+   #+BEGIN_SRC emacs-lisp
    (add-hook 'c-mode-hook 'column-enforce-mode)
    #+END_SRC
+
+** Create preconfigured N-column-rules
+   #+BEGIN_SRC emacs-lisp
+     (make-column-rule 110) ;; creates function `110-column-rule' for use interactively
+   #+END_SRC
+
 
 
 
