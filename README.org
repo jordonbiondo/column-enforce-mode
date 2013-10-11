@@ -8,8 +8,11 @@ What it looks like enforcing the 80 column rule:
 [[http://i.imgur.com/EezaOo9.png]]
 ** Usage
    Start it up interactively on the current buffer,
-   #+BEGIN_SRC
-   M-x: column-enforce-mode
+   #+BEGIN_SRC 
+   default startup:
+   M-x: column-enforce-mode 
+
+   or by specific rule function
    M-x: 80-column-rule
    #+END_SRC
    or tie it to a major mode:
