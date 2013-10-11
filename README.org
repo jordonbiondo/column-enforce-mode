@@ -1,8 +1,11 @@
 * column-enforce-mode
-  - Highlight text that extends beyond a certain column.
-  - By default, it tries to enforce the 80 column rule
-  - For more complex usage, use Emacs built-in whitespace-mode, this is meant to be very light
+  Highlight text that extends beyond a certain column.
 
+  This mode is meant to be a very light weight, 0 configuration, way to help enforce the 80 column rule. It can be configured for any N-column rule however.
+
+What it looks like enforcing the 80 column rule:
+
+[[http://i.imgur.com/EezaOo9.png]]
 ** Usage
    Start it up interactively on the current buffer,
    #+BEGIN_SRC
