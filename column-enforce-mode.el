@@ -5,11 +5,11 @@
 ;; Author: Jordon Biondo
 ;; Maintainer:
 ;; Created: Fri Oct 11 12:14:25 2013 (-0400)
-;; Version: 1.0.1
+;; Version: 1.0.3
 ;; Package-Requires: ()
-;; Last-Updated: Fri Oct 11 12:37:51 2013 (-0400)
+;; Last-Updated: Fri Oct 11 13:29:33 2013 (-0400)
 ;;           By: Jordon Biondo
-;;     Update #: 8
+;;     Update #: 9
 ;; URL: www.github.com/jordonbiondo/column-enforce-mode
 ;; Keywords:
 ;; Compatibility:
@@ -53,6 +53,11 @@
 ;;
 ;;; Code:
 
+;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Variables
+;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+
 (defvar column-enforce-column 80
   "Begin marking warnings one text after this
  many columns in `column-enforce-mode'.")
@@ -60,6 +65,52 @@
 
 (defvar column-enforce-face `(:foreground "red" :underline t)
   "Face used for warnings in `column-enforce-mode'.")
+
+
+;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Interactive functions
+;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+
+(defun column-enforce-n (n)
+  "Turn on `column-enforce-mode' with warnings at column N.
+N can be given as a prefix argument.
+
+Ex:
+  C-u 70 M-x column-enforce-n <enter>
+  sets up `column-enforce-mode' to mark \
+text that extends beyond 70 columns."
+  (interactive "P")
+  (let ((n (if (and n (integerp n)) n column-enforce-column)))
+    (column-enforce-mode -1)
+    (set (make-local-variable 'column-enforce-column) n)
+    (column-enforce-mode t)))
+
+
+;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Predefined column rules
+;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+
+(defmacro make-column-rule(n)
+  "Create an interactive function to enforce an N-column-rule."
+  `(let ((__n ,n))
+     (assert (integerp __n) nil "Wrong type argument")
+     (eval `(defun ,(intern (format "%d-column-rule" __n)) ()
+	      ,(format "Visually mark text after %d columns." __n)
+	      (interactive)
+	      (column-enforce-n ,__n)))))
+
+(make-column-rule 100)
+(make-column-rule 90)
+(make-column-rule 80)
+(make-column-rule 70)
+(make-column-rule 60)
+
+
+;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Mode
+;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 
 (define-minor-mode column-enforce-mode
@@ -77,6 +128,7 @@ Variable `column-enforce-face' decides how to display the warnings"
 	   (enforce-regexp
 	    (format "\\(^.\\{%s,%s\\}\\)\\(.+$\\)" column-str column-str))
 	   (enforce-keywords `((,enforce-regexp 2 column-enforce-face prepend))))
+      (make-local-variable 'column-enforce-column)
       (if column-enforce-mode
 	  (font-lock-add-keywords nil enforce-keywords)
 	(font-lock-remove-keywords nil enforce-keywords))
