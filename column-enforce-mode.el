@@ -133,5 +133,7 @@ Variable `column-enforce-face' decides how to display the warnings"
 	  (font-lock-add-keywords nil enforce-keywords)
 	(font-lock-remove-keywords nil enforce-keywords))
       (font-lock-fontify-buffer))))
+
+(provide 'column-enforce-mode)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; column-enforce-mode.el ends here
