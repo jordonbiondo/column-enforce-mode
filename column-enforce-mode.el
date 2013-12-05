@@ -7,12 +7,12 @@
 ;; Created: Fri Oct 11 12:14:25 2013 (-0400)
 ;; Version: 1.0.3
 ;; Package-Requires: ()
-;; Last-Updated: Fri Oct 11 13:29:33 2013 (-0400)
+;; Last-Updated: Wed Dec  4 21:37:39 2013 (-0500)
 ;;           By: Jordon Biondo
-;;     Update #: 9
+;;     Update #: 11
 ;; URL: www.github.com/jordonbiondo/column-enforce-mode
 ;; Keywords:
-;; Compatibility:
+;; Compatibility: Emacs 24.x
 ;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;
@@ -82,6 +82,8 @@ Ex:
 text that extends beyond 70 columns."
   (interactive "P")
   (let ((n (if (and n (integerp n)) n column-enforce-column)))
+    (setq column-enforce-mode-line-string
+	  (column-enforce-make-mode-line-string n))
     (column-enforce-mode -1)
     (set (make-local-variable 'column-enforce-column) n)
     (column-enforce-mode t)))
@@ -112,6 +114,13 @@ text that extends beyond 70 columns."
 ;; Mode
 ;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
+(defun column-enforce-make-mode-line-string(rule)
+  "Returns the string to display in the mode line"
+  (format "%dcol" rule))
+
+(defvar column-enforce-mode-line-string
+  (column-enforce-make-mode-line-string column-enforce-column)
+  "The current string for the mode line.")
 
 (define-minor-mode column-enforce-mode
   "Minor mode for highlighting text that extends beyond a certain column.
@@ -120,7 +129,7 @@ Variable `column-enforce-column' decides which column to start warning at.
  Default is 80
 Variable `column-enforce-face' decides how to display the warnings"
   :init-value nil
-  :lighter (format "col:%d!" column-enforce-column)
+  :lighter column-enforce-mode-line-string
   :keymap nil
   :global nil
   (when font-lock-mode
