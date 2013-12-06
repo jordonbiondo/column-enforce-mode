@@ -1,4 +1,4 @@
-;;; column-enforce-mode.el --- Highlight text that extends beyond a  column
+;;; column-enforce-mode.el --- Highlight text that extends beyond a column
 ;;
 ;; Filename: column-enforce-mode.el
 ;; Description:
@@ -71,7 +71,7 @@
 ;; Interactive functions
 ;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-
+;;;###autoload
 (defun column-enforce-n (n)
   "Turn on `column-enforce-mode' with warnings at column N.
 N can be given as a prefix argument.
@@ -93,7 +93,7 @@ text that extends beyond 70 columns."
 ;; Predefined column rules
 ;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-
+;;;###autoload
 (defmacro make-column-rule(n)
   "Create an interactive function to enforce an N-column-rule."
   `(let ((__n ,n))
@@ -122,6 +122,7 @@ text that extends beyond 70 columns."
   (column-enforce-make-mode-line-string column-enforce-column)
   "The current string for the mode line.")
 
+;;;###autoload
 (define-minor-mode column-enforce-mode
   "Minor mode for highlighting text that extends beyond a certain column.
 
