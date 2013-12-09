@@ -149,16 +149,44 @@ Variable `column-enforce-face' decides how to display the warnings"
   :lighter column-enforce-mode-line-string
   :keymap nil
   :global nil
-  (when font-lock-mode
-    (let* ((column-str (number-to-string column-enforce-column))
-	   (enforce-regexp
-	    (format "\\(^.\\{%s,%s\\}\\)\\(.+$\\)" column-str column-str))
-	   (enforce-keywords `((,enforce-regexp 2 column-enforce-face prepend))))
-      (make-local-variable 'column-enforce-column)
-      (if column-enforce-mode
-	  (font-lock-add-keywords nil enforce-keywords)
-	(font-lock-remove-keywords nil enforce-keywords))
-      (font-lock-fontify-buffer))))
+  (setq column-enforce-mode-line-string
+	(column-enforce-make-mode-line-string (column-enforce-get-column)))
+  (if column-enforce-mode
+      ;; use add-hook so we can append it, (force it to run last)
+      (progn
+	(jit-lock-register 'column-enforce-warn-on-region)
+	(column-enforce-warn-on-region (point-min) (point-max)))
+    (progn
+      (dolist (ov (column-enforce-get-cem-overlays-in (point-min) (point-max)))
+	(delete-overlay ov))
+      (jit-lock-unregister 'column-enforce-warn-on-region))))
+
+
+;; internal
+(defun column-enforce-get-cem-overlays-in (beg end)
+  (remove-if-not (lambda (ov) (overlay-get ov 'is-cem-ov))
+		 (overlays-in beg end)))
+
+
+(defun column-enforce-warn-on-region (beg end)
+  "Jit lock function for `column-enforce-mode' that will
+mark text that extends beyond `column-enforce-column' with the
+`column-enforce-face' using overlays."
+  (save-excursion
+    (goto-char beg)
+    (while (< (point) end)
+      (let ((cem-ovs (column-enforce-get-cem-overlays-in
+		   (point-at-bol) (point-at-eol))))
+	(dolist (ov cem-ovs) (delete-overlay ov))
+	(move-to-column (column-enforce-get-column))
+	(unless (= (point) (point-at-eol))
+	  (let ((new-ov (make-overlay (point)
+				      (point-at-eol)
+				      nil t t)))
+	    (overlay-put new-ov 'face 'column-enforce-face)
+	    (overlay-put new-ov 'is-cem-ov t)))
+	(forward-line 1)))))
+
 
 (provide 'column-enforce-mode)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
