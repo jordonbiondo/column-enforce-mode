@@ -1,7 +1,7 @@
 * column-enforce-mode
   Highlight text that extends beyond a certain column.
 
-  This mode is meant to be a very light weight, 0 configuration, way to help enforce the 80 column rule. It can be configured for any N-column rule however.
+  This mode is meant to be a very lightweight, zero configuration, way to help enforce the 80 column rule. It can be configured for any N-column rule however.
 
 What it looks like enforcing the 80 column rule:
 
@@ -24,7 +24,5 @@ What it looks like enforcing the 80 column rule:
    #+BEGIN_SRC emacs-lisp
      (make-column-rule 110) ;; creates function `110-column-rule' for use interactively
    #+END_SRC
-
-
-
-
+** Customizing the look
+Customize `column-enforce-face' to change the look of the mode
