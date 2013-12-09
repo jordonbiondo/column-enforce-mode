@@ -131,7 +131,8 @@ text that extends beyond 70 columns."
 
 (defun column-enforce-make-mode-line-string(rule)
   "Returns the string to display in the mode line"
-  (format "%dcol" rule))
+  (format " %dcol" rule))
+
 
 (defvar column-enforce-mode-line-string
   (column-enforce-make-mode-line-string (column-enforce-get-column))
