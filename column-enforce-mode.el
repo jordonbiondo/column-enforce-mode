@@ -160,7 +160,7 @@ Variable `column-enforce-face' decides how to display the warnings"
   (if column-enforce-mode
       ;; use add-hook so we can append it, (force it to run last)
       (progn
-	(jit-lock-register 'column-enforce-warn-on-region)
+	(jit-lock-register 'column-enforce-warn-on-region t)
 	(column-enforce-warn-on-region (point-min) (point-max)))
     (progn
       (dolist (ov (column-enforce-get-cem-overlays-in (point-min) (point-max)))
