@@ -58,13 +58,25 @@
 ;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 
-(defvar column-enforce-column 80
-  "Begin marking warnings one text after this
- many columns in `column-enforce-mode'.")
+(defgroup column-enforce nil
+  "Highlight text that extends beyond a certain column (80 column rule)"
+  :group 'convenience)
 
 
-(defvar column-enforce-face `(:foreground "red" :underline t)
-  "Face used for warnings in `column-enforce-mode'.")
+(defcustom column-enforce-column 80
+  "Highlight text extending beyond this  many columns in `column-enforce-mode'."
+  :type 'integer
+  :group 'column-enforce)
+
+
+(defun column-enforce-get-column ()
+  (or column-enforce-column fill-column 80))
+
+
+(defface column-enforce-face
+  `((t (:inherit font-lock-warning-face :underline t)))
+  "Face to be used to highlight lines confilicting the the current column rule"
+  :group 'column-enforce)
 
 
 ;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -101,7 +113,10 @@ text that extends beyond 70 columns."
      (eval `(defun ,(intern (format "%d-column-rule" __n)) ()
 	      ,(format "Visually mark text after %d columns." __n)
 	      (interactive)
-	      (column-enforce-n ,__n)))))
+	      (if (and column-enforce-mode (= ,__n (column-enforce-get-column)))
+		  (column-enforce-mode -1)
+		(column-enforce-n ,__n))))))
+
 
 (make-column-rule 100)
 (make-column-rule 90)
@@ -119,7 +134,7 @@ text that extends beyond 70 columns."
   (format "%dcol" rule))
 
 (defvar column-enforce-mode-line-string
-  (column-enforce-make-mode-line-string column-enforce-column)
+  (column-enforce-make-mode-line-string (column-enforce-get-column))
   "The current string for the mode line.")
 
 ;;;###autoload
