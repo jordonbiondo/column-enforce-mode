@@ -7,9 +7,9 @@
 ;; Created: Fri Oct 11 12:14:25 2013 (-0400)
 ;; Version: 1.0.4
 ;; Package-Requires: ()
-;; Last-Updated: Sun Dec  8 14:41:53 2013 (-0500)
+;; Last-Updated: Sun Dec  8 20:23:51 2013 (-0500)
 ;;           By: Jordon Biondo
-;;     Update #: 12
+;;     Update #: 13
 ;; URL: www.github.com/jordonbiondo/column-enforce-mode
 ;; Keywords: 
 ;; Compatibility: >= Emacs 22.1
@@ -78,6 +78,9 @@ the value of variable `fill-column', or if nil, 80."
   "Face to be used to highlight lines confilicting the the current column rule"
   :group 'column-enforce)
 
+
+(defvar column-enforce-face 'column-enforce-face
+  "Face to be used to highlight lines confilicting the the current column rule")
 
 ;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Interactive functions
