@@ -1,15 +1,15 @@
-;;; column-enforce-mode.el --- Highlight text that extends beyond a column
+;;; column-enforce-mode.el --- Highlight text that extends beyond a  column
 ;;
 ;; Filename: column-enforce-mode.el
 ;; Description:
 ;; Author: Jordon Biondo
 ;; Maintainer:
 ;; Created: Fri Oct 11 12:14:25 2013 (-0400)
-;; Version: 1.0.3
+;; Version: 1.0.4
 ;; Package-Requires: ()
-;; Last-Updated: Wed Dec  4 21:37:39 2013 (-0500)
+;; Last-Updated: Sun Dec  8 14:41:53 2013 (-0500)
 ;;           By: Jordon Biondo
-;;     Update #: 11
+;;     Update #: 12
 ;; URL: www.github.com/jordonbiondo/column-enforce-mode
 ;; Keywords:
 ;; Compatibility: Emacs 24.x
@@ -25,12 +25,6 @@
 ;;  To customize behavior, see `column-enforce-column' and `column-enforce-face'
 ;;
 ;;  To enable: M-x column-enforce-mode
-;;
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;
-;;; Change Log:
-;;
-;;  2013-10-11 12:17:32 : initial
 ;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;
@@ -105,6 +99,7 @@ text that extends beyond 70 columns."
 ;; Predefined column rules
 ;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
+
 ;;;###autoload
 (defmacro make-column-rule(n)
   "Create an interactive function to enforce an N-column-rule."
@@ -129,6 +124,7 @@ text that extends beyond 70 columns."
 ;; Mode
 ;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
+
 (defun column-enforce-make-mode-line-string(rule)
   "Returns the string to display in the mode line"
   (format " %dcol" rule))
@@ -137,6 +133,7 @@ text that extends beyond 70 columns."
 (defvar column-enforce-mode-line-string
   (column-enforce-make-mode-line-string (column-enforce-get-column))
   "The current string for the mode line.")
+
 
 ;;;###autoload
 (define-minor-mode column-enforce-mode
