@@ -107,6 +107,7 @@ text that extends beyond 70 columns."
 (defmacro make-column-rule(n)
   "Create an interactive function to enforce an N-column-rule."
   `(let ((__n ,n))
+     (assert (integerp __n) nil "Wrong type argument")
      (eval `(defun ,(intern (format "%d-column-rule" __n)) ()
 	      ,(format "Visually mark text after %d columns." __n)
 	      (interactive)
