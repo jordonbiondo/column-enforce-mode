@@ -58,12 +58,15 @@
 
 
 (defcustom column-enforce-column 80
-  "Highlight text extending beyond this  many columns in `column-enforce-mode'."
+  "Highlight text extending beyond this many columns \
+when using function `column-enforce-mode'."
   :type 'integer
   :group 'column-enforce)
 
 
 (defun column-enforce-get-column ()
+  "Gets the value of variable `column-enforce-column' or if nil, \
+the value of variable `fill-column', or if nil, 80."
   (or column-enforce-column fill-column 80))
 
 
@@ -161,14 +164,15 @@ Variable `column-enforce-face' decides how to display the warnings"
 
 ;; internal
 (defun column-enforce-get-cem-overlays-in (beg end)
+  "Get all overlays between BEG and END that have a 'is-cem-ov property."
   (remove-if-not (lambda (ov) (overlay-get ov 'is-cem-ov))
 		 (overlays-in beg end)))
 
 
 (defun column-enforce-warn-on-region (beg end)
-  "Jit lock function for `column-enforce-mode' that will
-mark text that extends beyond `column-enforce-column' with the
-`column-enforce-face' using overlays."
+  "Jit lock function for function `column-enforce-mode' that will \
+mark text that extends beyond `column-enforce-column' with the \
+`column-enforce-face' using overlays between BEG and END."
   (save-excursion
     (goto-char beg)
     (while (< (point) end)
