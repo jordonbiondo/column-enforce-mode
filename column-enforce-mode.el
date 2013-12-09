@@ -51,6 +51,9 @@
 ;; Variables
 ;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
+;; don't judge me
+(require 'cl)
+
 
 (defgroup column-enforce nil
   "Highlight text that extends beyond a certain column (80 column rule)"
