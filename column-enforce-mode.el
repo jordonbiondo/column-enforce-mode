@@ -11,8 +11,8 @@
 ;;           By: Jordon Biondo
 ;;     Update #: 12
 ;; URL: www.github.com/jordonbiondo/column-enforce-mode
-;; Keywords:
-;; Compatibility: Emacs 24.x
+;; Keywords: 
+;; Compatibility: >= Emacs 22.1
 ;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;
