@@ -167,6 +167,14 @@ Variable `column-enforce-face' decides how to display the warnings"
 	(delete-overlay ov))
       (jit-lock-unregister 'column-enforce-warn-on-region))))
 
+(defun column-enforce-mode-toggle-if-applicable ()
+  (if column-enforce-mode
+      (column-enforce-mode -1)
+    (when (derived-mode-p  'prog-mode)
+      (column-enforce-mode t))))
+
+(define-global-minor-mode global-column-enforce-mode column-enforce-mode
+  column-enforce-mode-toggle-if-applicable)
 
 ;; internal
 (defun column-enforce-get-cem-overlays-in (beg end)
