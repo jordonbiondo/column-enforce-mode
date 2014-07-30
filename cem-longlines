@@ -1,0 +1,3 @@
+#!/bin/bash
+cat "$1" | expand -t "$2" | awk $"{if (length(\$0) > $3) print NR}"
+                                                                    
