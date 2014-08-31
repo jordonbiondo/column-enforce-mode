@@ -66,6 +66,11 @@ when using function `column-enforce-mode'."
   :type 'integer
   :group 'column-enforce)
 
+(defcustom column-enforce-comments t
+  "Non-nil means to mark comments that exceed the column limit."
+  :type 'boolean
+  :group 'column-enforce)
+
 
 (defun column-enforce-get-column ()
   "Gets the value of variable `column-enforce-column' or if nil, \
@@ -194,7 +199,10 @@ mark text that extends beyond `column-enforce-column' with the \
 		   (point-at-bol) (point-at-eol))))
 	(dolist (ov cem-ovs) (delete-overlay ov))
 	(move-to-column (column-enforce-get-column))
-	(unless (= (point) (point-at-eol))
+	(if (and (not (= (point) (point-at-eol)))
+                 (or (not column-enforce-comments)
+                     (not (equal (syntax-ppss-context (syntax-ppss (point)))
+                                 'comment))))
 	  (let ((new-ov (make-overlay (point)
 				      (point-at-eol)
 				      nil t t)))
