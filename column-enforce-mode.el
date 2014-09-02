@@ -200,7 +200,7 @@ mark text that extends beyond `column-enforce-column' with the \
 	(dolist (ov cem-ovs) (delete-overlay ov))
 	(move-to-column (column-enforce-get-column))
 	(if (and (not (= (point) (point-at-eol)))
-                 (or (not column-enforce-comments)
+                 (or column-enforce-comments
                      (not (equal (syntax-ppss-context (syntax-ppss (point)))
                                  'comment))))
 	  (let ((new-ov (make-overlay (point)
