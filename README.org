@@ -26,13 +26,15 @@ What it looks like enforcing the 80 column rule:
    #+BEGIN_SRC emacs-lisp
      (add-hook 'prog-mode-hook 'column-enforce-mode)
    #+END_SRC
-** Tabs and Spaces
-Column-enforce-mode begins highlighting text that extends beyond 80 columns in an Emacs buffer, not after 80 characters. This means that it may begin marking at much fewer than 80 characters.
-
-For instance: By default tabs are drawn as 8 blank columns, this means that if a line contained 10 tabs and the word "hello", "hello" would be highlighted. (10 tabs * 8 columns per tab = 80)
-** Create preconfigured N-column-rules
+   or enable globally
    #+BEGIN_SRC emacs-lisp
-     (make-column-rule 110) ;; creates function `110-column-rule' for use interactively
+     (global-column-enforce-mode t)
+   #+END_SRC
+** Allowing long comments
+   By default column-enforce-mode will mark comments that exceed the limit.
+   You can allow long comments in your code with:
+   #+BEGIN_SRC emacs-lisp
+     (setq column-enforce-comments nil)
    #+END_SRC
 ** Customizing the column
 #+BEGIN_SRC emacs-lisp
