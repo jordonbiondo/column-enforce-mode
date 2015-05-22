@@ -126,28 +126,23 @@ text that extends beyond 70 columns."
 		  (column-enforce-mode -1)
 		(column-enforce-n ,__n))))))
 
-
 (make-column-rule 100)
 (make-column-rule 90)
 (make-column-rule 80)
 (make-column-rule 70)
 (make-column-rule 60)
 
-
 ;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Mode
 ;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
 
 (defun column-enforce-make-mode-line-string(rule)
   "Returns the string to display in the mode line"
   (format " %dcol" rule))
 
-
 (defvar column-enforce-mode-line-string
   (column-enforce-make-mode-line-string (column-enforce-get-column))
   "The current string for the mode line.")
-
 
 ;;;###autoload
 (define-minor-mode column-enforce-mode
@@ -186,7 +181,6 @@ Variable `column-enforce-face' decides how to display the warnings"
   "Get all overlays between BEG and END that have a 'is-cem-ov property."
   (remove-if-not (lambda (ov) (overlay-get ov 'is-cem-ov))
 		 (overlays-in beg end)))
-
 
 (defun column-enforce-warn-on-region (beg end)
   "Jit lock function for function `column-enforce-mode' that will \
