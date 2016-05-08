@@ -66,6 +66,11 @@ when using function `column-enforce-mode'."
   :type 'integer
   :group 'column-enforce)
 
+(defcustom column-enforce-special-first-line nil
+  "Non-nil is considered as special column size for the first line."
+  :type 'integer
+  :group 'column-enforce)
+
 (defcustom column-enforce-comments t
   "Non-nil means to mark comments that exceed the column limit."
   :type 'boolean
@@ -198,7 +203,12 @@ mark text that extends beyond `column-enforce-column' with the \
       (let ((cem-ovs (column-enforce-get-cem-overlays-in
 		   (point-at-bol) (point-at-eol))))
 	(dolist (ov cem-ovs) (delete-overlay ov))
-	(move-to-column (column-enforce-get-column))
+	(if column-enforce-special-first-line
+	    (if (= 0 (count-lines 1 (point)))
+		(move-to-column column-enforce-special-first-line)
+	      (move-to-column (column-enforce-get-column)))
+	  (move-to-column (column-enforce-get-column))
+	  )
 	(if (and (not (= (point) (point-at-eol)))
                  (or column-enforce-comments
                      (not (equal (syntax-ppss-context (syntax-ppss (point)))
