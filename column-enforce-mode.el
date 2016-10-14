@@ -54,7 +54,6 @@
 ;; don't judge me
 (require 'cl)
 
-
 (defgroup column-enforce nil
   "Highlight text that extends beyond a certain column (80 column rule)"
   :group 'convenience)
@@ -71,12 +70,31 @@ when using function `column-enforce-mode'."
   :type 'boolean
   :group 'column-enforce)
 
+(defcustom column-enforce-column-getter nil
+  "A function that will return the maximun column for the current line.
+
+Using this variable will override the value of `column-enforce-column',
+the function will be called with no arguments and will be expected to return a
+number to use in place of `column-enforce-column'. This can be used for
+changing the max column based on context, such as restricting the column count
+further on the first line."
+  :type 'function
+  :group 'column-enforce)
 
 (defun column-enforce-get-column ()
   "Gets the value of variable `column-enforce-column' or if nil, \
 the value of variable `fill-column', or if nil, 80."
-  (or column-enforce-column fill-column 80))
+  (let ((getter (if (functionp column-enforce-column-getter)
+                    column-enforce-column-getter
+                  'column-enforce-default-column-getter)))
+    (or
+     (ignore-errors
+       (save-excursion
+         (funcall column-enforce-column-getter)))
+     80)))
 
+(defun column-enforce-default-column-getter ()
+  (or column-enforce-column fill-column 80))
 
 (defface column-enforce-face
   `((t (:inherit font-lock-warning-face :underline t)))
@@ -138,7 +156,7 @@ text that extends beyond 70 columns."
 
 (defun column-enforce-make-mode-line-string(rule)
   "Returns the string to display in the mode line"
-  (format " %dcol" rule))
+  (format " %scol" rule))
 
 (defvar column-enforce-mode-line-string
   (column-enforce-make-mode-line-string (column-enforce-get-column))
