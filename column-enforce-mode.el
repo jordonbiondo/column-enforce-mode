@@ -121,7 +121,7 @@ text that extends beyond 70 columns."
   (interactive "P")
   (let ((n (if (and n (integerp n)) n column-enforce-column)))
     (setq column-enforce-mode-line-string
-	  (column-enforce-make-mode-line-string n))
+          (column-enforce-make-mode-line-string n))
     (column-enforce-mode -1)
     (set (make-local-variable 'column-enforce-column) n)
     (column-enforce-mode t)))
@@ -174,15 +174,15 @@ Variable `column-enforce-face' decides how to display the warnings"
   :keymap nil
   :global nil
   (setq column-enforce-mode-line-string
-	(column-enforce-make-mode-line-string (column-enforce-get-column)))
+        (column-enforce-make-mode-line-string (column-enforce-get-column)))
   (if column-enforce-mode
       ;; use add-hook so we can append it, (force it to run last)
       (progn
-	(jit-lock-register 'column-enforce-warn-on-region t)
-	(column-enforce-warn-on-region (point-min) (point-max)))
+        (jit-lock-register 'column-enforce-warn-on-region t)
+        (column-enforce-warn-on-region (point-min) (point-max)))
     (progn
       (dolist (ov (column-enforce-get-cem-overlays-in (point-min) (point-max)))
-	(delete-overlay ov))
+        (delete-overlay ov))
       (jit-lock-unregister 'column-enforce-warn-on-region))))
 
 (defun column-enforce-mode-toggle-if-applicable ()
@@ -199,7 +199,7 @@ Variable `column-enforce-face' decides how to display the warnings"
 (defun column-enforce-get-cem-overlays-in (beg end)
   "Get all overlays between BEG and END that have a 'is-cem-ov property."
   (remove-if-not (lambda (ov) (overlay-get ov 'is-cem-ov))
-		 (overlays-in beg end)))
+                 (overlays-in beg end)))
 
 (defun column-enforce-warn-on-region (beg end)
   "Jit lock function for function `column-enforce-mode' that will \
@@ -209,19 +209,19 @@ mark text that extends beyond `column-enforce-column' with the \
     (goto-char beg)
     (while (< (point) end)
       (let ((cem-ovs (column-enforce-get-cem-overlays-in
-		   (point-at-bol) (point-at-eol))))
-	(dolist (ov cem-ovs) (delete-overlay ov))
-	(move-to-column (column-enforce-get-column))
-	(if (and (not (= (point) (point-at-eol)))
+                      (point-at-bol) (point-at-eol))))
+        (dolist (ov cem-ovs) (delete-overlay ov))
+        (move-to-column (column-enforce-get-column))
+        (if (and (not (= (point) (point-at-eol)))
                  (or column-enforce-comments
                      (not (equal (syntax-ppss-context (syntax-ppss (point)))
                                  'comment))))
-	  (let ((new-ov (make-overlay (point)
-				      (point-at-eol)
-				      nil t t)))
-	    (overlay-put new-ov 'face 'column-enforce-face)
-	    (overlay-put new-ov 'is-cem-ov t)))
-	(forward-line 1)))))
+            (let ((new-ov (make-overlay (point)
+                                        (point-at-eol)
+                                        nil t t)))
+              (overlay-put new-ov 'face 'column-enforce-face)
+              (overlay-put new-ov 'is-cem-ov t)))
+        (forward-line 1)))))
 
 
 (provide 'column-enforce-mode)
