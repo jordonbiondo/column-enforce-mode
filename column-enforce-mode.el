@@ -173,6 +173,7 @@ Variable `column-enforce-face' decides how to display the warnings"
     (when (derived-mode-p  'prog-mode)
       (column-enforce-mode t))))
 
+;;;###autoload
 (define-global-minor-mode global-column-enforce-mode column-enforce-mode
   column-enforce-mode-toggle-if-applicable)
 
