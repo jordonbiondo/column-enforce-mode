@@ -90,7 +90,7 @@ the value of variable `fill-column', or if nil, 80."
     (or
      (ignore-errors
        (save-excursion
-         (funcall column-enforce-column-getter)))
+         (funcall getter)))
      80)))
 
 (defun column-enforce-default-column-getter ()
