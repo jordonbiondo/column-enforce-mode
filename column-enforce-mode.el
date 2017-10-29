@@ -51,8 +51,7 @@
 ;; Variables
 ;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-;; don't judge me
-(require 'cl)
+(require 'cl-lib)
 
 (defgroup column-enforce nil
   "Highlight text that extends beyond a certain column (80 column rule)"
@@ -148,7 +147,7 @@ text that extends beyond 70 columns."
 (defmacro make-column-rule(n)
   "Create an interactive function to enforce an N-column-rule."
   `(let ((__n ,n))
-     (assert (integerp __n) nil "Wrong type argument")
+     (cl-assert (integerp __n) nil "Wrong type argument")
      (eval `(defun ,(intern (format "%d-column-rule" __n)) ()
 	      ,(format "Visually mark text after %d columns." __n)
 	      (interactive)
@@ -213,8 +212,8 @@ Variable `column-enforce-face' decides how to display the warnings"
 ;; internal
 (defun column-enforce-get-cem-overlays-in (beg end)
   "Get all overlays between BEG and END that have a 'is-cem-ov property."
-  (remove-if-not (lambda (ov) (overlay-get ov 'is-cem-ov))
-                 (overlays-in beg end)))
+  (cl-remove-if-not (lambda (ov) (overlay-get ov 'is-cem-ov))
+                    (overlays-in beg end)))
 
 (defun column-enforce-warn-on-region (beg end)
   "Jit lock function for function `column-enforce-mode' that will \
