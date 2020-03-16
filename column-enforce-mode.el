@@ -233,7 +233,7 @@ mark text that extends beyond `column-enforce-column' with the \
             (let ((new-ov (make-overlay (point)
                                         (point-at-eol)
                                         nil t t)))
-              (overlay-put new-ov 'face 'column-enforce-face)
+              (overlay-put new-ov 'face column-enforce-face)
               (overlay-put new-ov 'is-cem-ov t)))
         (forward-line 1)))))
 
