@@ -62,11 +62,13 @@
   "Highlight text extending beyond this many columns \
 when using function `column-enforce-mode'."
   :type 'integer
+  :safe 'integerp
   :group 'column-enforce)
 
 (defcustom column-enforce-comments t
   "Non-nil means to mark comments that exceed the column limit."
   :type 'boolean
+  :safe 'booleanp
   :group 'column-enforce)
 
 (defcustom column-enforce-column-getter nil
